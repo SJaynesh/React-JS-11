@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 export default function App() {
   let fruits = ["Apple", "Mango", "Banana", "Kiwi"]
@@ -24,44 +24,44 @@ export default function App() {
       course: "Full Stack"
     }
   ];
+
+  const inputRef = useRef(null);
+
+  console.log(inputRef);
+
+  function getValue() {
+    console.log("Button is clicked....");
+    inputRef.current.focus();
+
+    const data = inputRef.current.value;
+    console.log("Value", data);
+  }
+
+  function setValue() {
+    inputRef.current.focus();
+    inputRef.current.value = "Jaynesh Sarkar";
+  }
+
+  function setColor() {
+    inputRef.current.style.color = "red";
+  }
+
+  function hideField() {
+    inputRef.current.style.display = "none";
+  }
+
+
   return (
-    <div>
+    <>
       <center>
-        <h1>List</h1>
+        <h1>useRef Hook</h1>
+
+        <input type="text" ref={inputRef} placeholder='Enter any here..' />
+        <button onClick={getValue}>Click</button>
+        <button onClick={setValue}>Set Value</button>
+        <button onClick={setColor}>Apply Color</button>
+        <button onClick={hideField}>Hide 🔒</button>
       </center>
-
-      <ul>
-        {fruits.map((val, index) => (
-          <li>{val}</li>
-        ))}
-      </ul>
-
-      <center>
-        <h1>Users</h1>
-        <table border={1}>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Course</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {
-              users.map((e, index) => (
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>{e.name}</td>
-                  <td>{e.age}</td>
-                  <td>{e.course}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </center>
-    </div>
+    </>
   )
 }
