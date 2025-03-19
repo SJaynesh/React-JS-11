@@ -27,11 +27,11 @@ export default function Dynamic() {
         <div className='container col-4'>
             <h2>Dynamic Form</h2>
             {
-                fields.map((e) => {
-                    return <div className='mb-2 d-flex gap-2'>
-                        <input type="hidden" value={e.id} />
-                        <input type='text' name='userName' className='form-control' placeholder='Enter any here' value={e.text} onChange={(event) => handleChange(event, e.id)} />
-                        <button className='btn btn-danger' onClick={(event) => handleDelete(e.id, event)}>❌</button>
+                fields.map((record) => {
+                    return <div className='mb-2 d-flex gap-2' key={record.id}>
+                        <input type="hidden" value={record.id} />
+                        <input type='text' name='userName' className='form-control' placeholder='Enter any here' value={record.text} onChange={(event) => handleChange(event, record.id)} />
+                        <button className='btn btn-danger' onClick={(event) => handleDelete(record.id, event)}>❌</button>
                     </div>
                 })
             }
