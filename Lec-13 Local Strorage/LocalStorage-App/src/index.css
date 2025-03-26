@@ -1,0 +1,98 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f0f4f8;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #333;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.counter-wrapper {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #4b9cd3;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.counter-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.counter-button {
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background-color: #4b9cd3;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.counter-button:focus {
+  outline: none;
+}
+
+.counter-button:hover {
+  transform: scale(1.1);
+}
+
+.increment {
+  background-color: #4CAF50;
+}
+
+.increment:hover {
+  background-color: #45a049;
+}
+
+.decrement {
+  background-color: #f44336;
+}
+
+.decrement:hover {
+  background-color: #e53935;
+}
+
+.count-display p {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.count-display p {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.count-display p {
+  color: #ff5722;
+  transform: scale(1.2);
+}
