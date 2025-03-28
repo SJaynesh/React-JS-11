@@ -5,6 +5,8 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [editId, setEditId] = useState(null);
+
 
   const [users, setUsers] = useState([]);
 
@@ -42,7 +44,29 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setUsers([...users, { email, password }]);
+
+    console.log("Edit Id", editId);
+
+
+    if (editId != null) {
+      console.log("Data Update !!");
+      // Logic
+
+      const updateUser = users.map((item, index) => {
+        if (index == editId) {
+          return { email, password };
+        } else {
+          return item;
+        }
+      })
+
+      setUsers(updateUser);
+
+      setEditId(null);
+
+    } else {
+      setUsers([...users, { email, password }]);
+    }
 
     setEmail("");
     setPassword("");
@@ -55,6 +79,9 @@ export default function App() {
   }
 
   const handleEdit = (index) => {
+
+    setEditId(index);
+
     setEmail(users[index].email);
     setPassword(users[index].password);
   }
@@ -78,7 +105,7 @@ export default function App() {
 
           <tr>
             <td></td>
-            <td> <button>Submit</button> </td>
+            <td> <button>{editId != null ? "Edit" : "Submit"}</button> </td>
           </tr>
         </table>
       </form>
@@ -88,6 +115,7 @@ export default function App() {
 
       <table align='center' border={1}>
         <tr>
+          <th>#</th>
           <th>Email</th>
           <th>Password</th>
           <th>Action</th>
@@ -96,6 +124,7 @@ export default function App() {
         {
           users.map((record, index) =>
             <tr key={index}>
+              <td>{index + 1}</td>
               <td>{record.email}</td>
               <td>{record.password}</td>
               <td>
