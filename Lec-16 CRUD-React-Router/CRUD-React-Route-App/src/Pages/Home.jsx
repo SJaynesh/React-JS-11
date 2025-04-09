@@ -1,11 +1,29 @@
-import React from 'react'
-import NavBar from '../Components/NavBar'
+import React, { useEffect, useState } from 'react'
 import { Table, Button } from 'react-bootstrap';
+import { data } from 'react-router-dom';
 
 export default function Home() {
+
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem('users'));
+
+        console.log(data);
+
+
+        setUsers(data);
+    }, [])
+
+    const deleteUser = (index) => {
+        const deletedUsers = users.filter((_, i) => index != i)
+
+        localStorage.setItem('users', JSON.stringify(deletedUsers));
+
+        setUsers(deletedUsers);
+    }
     return (
         <div>
-            <NavBar />
             <h1 align='center' className='mt-5'>View Users</h1>
 
             <div className='d-flex justify-content-center mt-5'>
@@ -21,16 +39,21 @@ export default function Home() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>mark@gmail.com</td>
-                                <td>12345</td>
-                                <td>
-                                    <Button variant="outline-warning">Edit</Button>
-                                    <Button variant="outline-danger" className='ms-2'>Delete</Button></td>
+                            {
+                                users.map((data, index) => (
 
-                            </tr>
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{data.username}</td>
+                                        <td>{data.email}</td>
+                                        <td>{data.password}</td>
+                                        <td>
+                                            <Button variant="outline-warning">Edit</Button>
+                                            <Button variant="outline-danger" className='ms-2' onClick={() => deleteUser(index)}>Delete</Button></td>
+
+                                    </tr>
+                                ))
+                            }
                         </tbody>
                     </Table>
                 </div>
