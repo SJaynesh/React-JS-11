@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Button } from 'react-bootstrap';
-import { data } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
+
 
 export default function Home() {
 
     const [users, setUsers] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem('users'));
+        const data = JSON.parse(localStorage.getItem('users')) ?? [];
 
         console.log(data);
 
@@ -28,7 +30,11 @@ export default function Home() {
 
             <div className='d-flex justify-content-center mt-5'>
                 <div className='col-6'>
-                    <Table striped bordered hover>
+                    {users.length == 0 ? <div>
+                        <center>
+                            <h5>No Any Records </h5>
+                        </center>
+                    </div> : <Table striped bordered hover>
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -48,14 +54,14 @@ export default function Home() {
                                         <td>{data.email}</td>
                                         <td>{data.password}</td>
                                         <td>
-                                            <Button variant="outline-warning">Edit</Button>
+                                            <Button variant="outline-warning" onClick={() => navigate('/editUser', { state: { ...data, 'index': index } })}>Edit</Button>
                                             <Button variant="outline-danger" className='ms-2' onClick={() => deleteUser(index)}>Delete</Button></td>
 
                                     </tr>
                                 ))
                             }
                         </tbody>
-                    </Table>
+                    </Table>}
                 </div>
             </div>
         </div>
