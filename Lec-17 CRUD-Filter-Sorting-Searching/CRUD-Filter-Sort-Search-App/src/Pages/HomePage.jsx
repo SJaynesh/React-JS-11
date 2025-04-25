@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom'
 
 export default function HomePage() {
 
-    const [products, setProducts] = useState(JSON.parse(localStorage.getItem('products')) ?? []);
+    const [products, setProducts] = useState(JSON.parse(localStorage.getItem('products')));
 
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("");
+    const [status, setStatus] = useState("");
 
     useEffect(() => {
+        console.log("Use Effect Hook....", products);
 
-        console.log("Use Effect Hook....");
-
+        // Products Searching
         if (search != '') {
             console.log("Searching....");
 
@@ -27,6 +28,7 @@ export default function HomePage() {
             setProducts(JSON.parse(localStorage.getItem('products')));
         }
 
+        // Product Price Sorting
         if (sort == 'lth') {
             const updatedProduct = products.slice().sort((a, b) => parseFloat(a.p_price) - parseFloat(b.p_price));
 
@@ -36,7 +38,59 @@ export default function HomePage() {
 
             setProducts(updatedProduct);
         }
-    }, [search, sort])
+
+        // Products Status
+
+        if (status != "") {
+
+            let allProducts = JSON.parse(localStorage.getItem('products'));
+
+            const updateProducts = allProducts.filter((item) => item.active == status);
+
+            setProducts(updateProducts);
+        }
+    }, [search, sort, status])
+
+    const handleToggleBtn = (index, active) => {
+        console.log(`Index : ${index} Status : ${active}`);
+
+        let updatedProduct = [];
+        let allProducts = JSON.parse(localStorage.getItem('products'));
+
+
+        if (active == 'decative') {
+            updatedProduct = allProducts.map((item, i) => {
+                if (index == i) {
+                    item.active = "active";
+                }
+                return item;
+            })
+        } else if (active == 'active') {
+            updatedProduct = allProducts.map((item, i) => {
+                if (index == i) {
+                    item.active = "decative";
+                }
+                return item;
+            })
+        }
+
+        localStorage.setItem('products', JSON.stringify(updatedProduct));
+
+        setProducts(updatedProduct);
+
+        setStatus("")
+
+    }
+
+    const handleDelete = (index) => {
+        let allProduct = JSON.parse(localStorage.getItem('products'));
+
+        const deletedProdcuts = allProduct.filter((_, i) => i != index)
+
+        localStorage.setItem('products', JSON.stringify(deletedProdcuts));
+
+        setProducts(deletedProdcuts);
+    }
 
     return (
         <div className="container my-5">
@@ -64,11 +118,20 @@ export default function HomePage() {
                 </select>
             </div>
 
+            <div className='col-4 mt-2'>
+                <label htmlFor="">Status : </label>
+                <select value={status} onChange={(event) => setStatus(event.target.value)}>
+                    <option value="">Select</option>
+                    <option value="active">Active</option>
+                    <option value="decative">Deactive</option>
+                </select>
+            </div>
+
             {/* <h1>{search}</h1> */}
 
             {/* Product Check */}
             {
-                products.length === 0 ? (
+                products == null ? (
                     <div className="text-center">
                         <h2 className="text-danger">No Products Available</h2>
                     </div>
@@ -84,6 +147,12 @@ export default function HomePage() {
                                     </div>
                                     <div className="card-footer bg-white border-top-0">
                                         <h4 className="text-success">₹ {data.p_price}</h4>
+
+                                        <button className={(data.active == 'active') ? 'btn btn-success' : 'btn btn-danger'} onClick={() => handleToggleBtn(index, data.active)}>{data.active}</button>
+
+                                        <button className='btn btn-danger' onClick={() => handleDelete(index)}>Delete</button>
+
+                                        {/* {data.active == 'decative' ? <button className='btn btn-danger'>{data.active}</button> : <button className='btn btn-success'>{data.active}</button>} */}
                                     </div>
                                 </div>
                             </div>
@@ -91,6 +160,6 @@ export default function HomePage() {
                     </div>
                 )
             }
-        </div>
+        </div >
     )
 }

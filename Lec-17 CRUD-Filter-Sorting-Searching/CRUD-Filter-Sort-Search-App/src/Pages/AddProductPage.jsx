@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
 export default function AddProductPage() {
-    const [product, setProducts] = useState({ p_name: "", p_price: "", p_desc: "", p_image: "", active: "decative" });
+    const [product, setProducts] = useState({ id: Math.floor(Math.random() * 999 ), p_name: "", p_price: "", p_desc: "", p_image: "", active: "decative" });
 
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ export default function AddProductPage() {
 
         localStorage.setItem('products', JSON.stringify(data));// String
 
-        setProducts({ p_name: "", p_price: "", p_desc: "", p_image: "" });
+        setProducts({ p_name: "", p_price: "", p_desc: "", p_image: "", active: "decative" });
 
         navigate('/');
     }
