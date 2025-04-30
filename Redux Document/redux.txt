@@ -1,0 +1,126 @@
+Redux :
+
+
+UI/Component --->   Action Creater   ---> Reducers     ----> Store     ---> UI/Component
+
+
+1. Install Redux
+	- Redux
+	- React-Redux
+
+		- npm i redux
+		- npm i react-redux
+		- npm i redux  react-redux  bootstrap  react-bootstrap
+
+2. Directory Structure
+
+	src
+		- 📁 Redux
+			- 📁 Actions
+			- 📁 Reducers
+			- 📁 Store 
+
+
+3. Action Creater 
+
+	- Create Action Type :
+
+		export const INCREMENT = "INCREMENT";
+		export const DECREMENT= "DECREMENT"
+
+	- Creare Action :
+
+		import { DECREMENT, INCREMENT } from "./actionType"
+
+		export const Increment = () => {
+ 	   		return {
+     			   type: INCREMENT
+    			}
+		}
+
+		export const Decrement = () => {
+    			return {
+      			  type: DECREMENT
+    			}
+		}
+
+4. Reducer
+	- To create state (variable)
+	- Ex.:
+		const count = 0;
+
+	- To create Reducer funtion
+	- Ex.:
+		const counterReducer = (state = count, action) => {
+
+   		 	switch (action.type) {
+      			  case INCREMENT:
+        				    return state + 1;
+       			  case DECREMENT:
+          				   return state - 1;
+        			  default:
+         				   return state;
+   			 }
+		}
+
+	- To export reducer function
+	- Ex.: 
+		export default counterReducer;
+
+
+5. Store
+	- To Import createStore method where redux
+	- Ex.: 
+		import { createStore } from "redux";
+
+
+	- To create store using createStore
+	- And provide reducer for createStore
+	- Ex.: 
+		const store = createStore(counterReducer); 
+
+
+	- To Export Store
+	- Ex.: 
+		export default store;
+
+
+
+6. UI/Component
+
+	- To go Main.jsx file
+	
+	- To Provide store all components using Provider
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Multiple Function  : export
+
+Single Function : export default
+
+
+
+
+
+
+
+
+
+
+
