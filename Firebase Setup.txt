@@ -1,0 +1,8 @@
+1. Create a Project in Firebase
+2. Connect your React App in Firebase Project
+
+Login :
+	email, password, Sign In, Google With Login
+
+Register :
+   	 firstname, lastname, email, password, conform password, Sign UP
