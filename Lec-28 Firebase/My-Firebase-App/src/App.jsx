@@ -1,5 +1,4 @@
 import React from "react";
-import { app } from "./firebase";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
