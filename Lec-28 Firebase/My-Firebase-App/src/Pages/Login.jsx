@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "../firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 import { ToastContainer, toast } from "react-toastify";
-
-const auth = getAuth(app);
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -28,16 +26,39 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((value) => {
         toast.success("User Login Successfully...");
+        setEmail("");
+        setPassword("");
         navigate("/dashboard");
       })
       .catch((err) => {
-        console.log(err);
-        toast.error(err.code);
+        console.log(err.code);
+        if (err.code == "auth/invalid-credential") {
+          toast.error("User not exist....");
+        } else if (err.code == "auth/invalid-email") {
+          toast.error("Email is invalid");
+        } else if (err.code == "auth/weak-password") {
+          toast.error("Password is not strong. please enter min 6 length");
+        } else if (err.code == "auth/email-already-in-use") {
+          toast.error("Email is already exist....");
+        } else {
+          toast.error("Something went wrong...");
+        }
       });
 
-    setEmail("");
-    setPassword("");
     setError({});
+  };
+
+  const loginWithGoogle = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((data) => {
+        toast.success("User Login Successfully...");
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err.code);
+
+        toast.error(`Something went wrong... : ${err.code}`);
+      });
   };
 
   return (
@@ -56,6 +77,7 @@ export default function Login() {
               id="exampleInputEmail1"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter Email..."
               aria-describedby="emailHelp"
             />
             {error.email && (
@@ -71,6 +93,7 @@ export default function Login() {
               className="form-control"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter Password..."
               id="exampleInputPassword1"
             />
             {error.password && (
@@ -87,6 +110,12 @@ export default function Login() {
             Don't have an account yer ? <Link to="/register">Sign Up</Link>
           </p>
         </form>
+      </div>
+
+      <div className="h-100 d-flex align-items-center justify-content-center">
+        <button className="btn btn-info" onClick={loginWithGoogle}>
+          Sign In With Google
+        </button>
       </div>
       <ToastContainer />
     </div>

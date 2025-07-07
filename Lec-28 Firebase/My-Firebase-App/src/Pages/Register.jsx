@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
-import { app } from "../firebase";
-
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { ToastContainer, toast } from "react-toastify";
-
-const auth = getAuth(app);
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -33,14 +30,24 @@ export default function Register() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((val) => {
         toast.success("User Registion Successfully...");
+
+        setEmail("");
+        setPassword("");
       })
       .catch((err) => {
-        console.log(err);
-        toast.error(err.code);
+        console.log(err.code);
+
+        if (err.code == "auth/invalid-email") {
+          toast.error("Email is invalid");
+        } else if (err.code == "auth/weak-password") {
+          toast.error("Password is not strong. please enter min 6 length");
+        } else if (err.code == "auth/email-already-in-use") {
+          toast.error("Email is already exist....");
+        } else {
+          toast.error("Something went wrong...");
+        }
       });
 
-    setEmail("");
-    setPassword("");
     setError({});
   };
 
